@@ -1,3 +1,9 @@
+let customChecker;
+
+export function overrideComponentTypeChecker (providedChecker) {
+  customChecker = providedChecker;
+}
+
 /**
  * Returns true if the provided element is a component of the provided type.
  *
@@ -5,5 +11,7 @@
  * @param reactElement {ReactElement} - any React Element (not a real DOM node)
  */
 export default function isComponentOfType (classType, reactElement) {
-  return reactElement && reactElement.type === classType;
+  return customChecker
+    ? customChecker(classType, reactElement)
+    : reactElement && reactElement.type === classType;
 }
